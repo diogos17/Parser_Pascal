@@ -10,7 +10,7 @@ $digit = [0-9]
 tokens :-
   $white+                          ;  --ignorar caracteres brancos
 
-  "program"                        { \_ -> T_PROGRAM }
+  "program"                        { \_ -> T_PROGRAM  }
   "var"                            { \_ -> T_VAR }
   "begin"                          { \_ -> T_BEGIN }
   "end"                            { \_ -> T_END }
