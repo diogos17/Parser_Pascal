@@ -8,32 +8,36 @@ $alpha = [a-zA-Z_]
 $digit = [0-9]
 
 tokens :-
-  $white+                          ;  --ignorar caracteres brancos
+  $white+;                   --ignorar caracteres brancos
+  "//".*  ;                  -- qualquer linha iniciada por // com 0 ou mais carateres (\n não incluido .)
+  \{ ([^\}] | \n)* \} ;           -- qualquer conjunto de 0 ou mais caraters exceto } delimitado por {}
+  
+  [pP][rR][oO][gG][rR][aA][mM]      { \_ -> T_PROGRAM  }
+  [vV][aA][rR]                     { \_ -> T_VAR }
+  [bB][eE][gG][iI][nN]             { \_ -> T_BEGIN }
+  [eE][nN][dD]                     { \_ -> T_END }
+  [iI][fF]                         { \_ -> T_IF }
+  [tT][hH][eE][nN]                 { \_ -> T_THEN }
+  [eE][lL][sS][eE]                 { \_ -> T_ELSE }
+  [wW][hH][iI][lL][eE]             { \_ -> T_WHILE }
+  [dD][oO]                         { \_ -> T_DO }
+  [nN][oO][tT]                     { \_ -> T_NOT }
+  [aA][nN][dD]                     { \_ -> T_AND }
+  [oO][rR]                         { \_ -> T_OR }
+  [dD][iI][vV]                     { \_ -> T_DIV }
+  [mM][oO][dD]                     { \_ -> T_MOD }
+  [iI][nN][tT][eE][gG][eE][rR]     { \_ -> T_INTEGER }
+  [rR][eE][aA][lL]                 { \_ -> T_REAL }
+  [sS][tT][rR][iI][nN][gG]         { \_ -> T_STRING }
+  [bB][oO][oO][lL][eE][aA][nN]     { \_ -> T_BOOLEAN }
+  [tT][rR][uU][eE]                 { \_ -> T_BOOL True }
+  [fF][aA][lL][sS][eE]             { \_ -> T_BOOL False }
 
-  "program"                        { \_ -> T_PROGRAM  }
-  "var"                            { \_ -> T_VAR }
-  "begin"                          { \_ -> T_BEGIN }
-  "end"                            { \_ -> T_END }
-  "if"                             { \_ -> T_IF }
-  "then"                           { \_ -> T_THEN }
-  "else"                           { \_ -> T_ELSE }
-  "while"                          { \_ -> T_WHILE }
-  "do"                             { \_ -> T_DO }
-  "not"                            { \_ -> T_NOT }
-  "and"                            { \_ -> T_AND }
-  "or"                             { \_ -> T_OR }
-  "div"                            { \_ -> T_DIV }
-  "mod"                            { \_ -> T_MOD }
-  "integer"                        { \_ -> T_INTEGER }
-  "real"                           { \_ -> T_REAL }
-  "string"                         { \_ -> T_STRING }
-  "boolean"                        { \_ -> T_BOOLEAN }
-  "true"                           { \_ -> T_BOOL True }
-  "false"                          { \_ -> T_BOOL False } -- perguntar questao das uppercase letters
-  "write" | "writeln"              { \s -> T_WRITE s }
-  "read"  | "readln"               { \s -> T_READ s }
+  ([wW][rR][iI][tT][eE]) | ([wW][rR][iI][tT][eE][lL][nN])    { \s -> T_WRITE s }
+  ([rR][eE][aA][dD]) | ([rR][eE][aA][dD][lL][nN])            { \s -> T_READ s }
+
   ":="                             { \_ -> T_ASSIGN }
-  "<=" | ">=" | "<>" | "=" | "<" | ">"  { \s -> T_COMPARATOR s }
+  "<=" | ">=" | "<>" | "=" | "<" | ">"                       { \s -> T_COMPARATOR s }
   "+"                              { \_ -> T_PLUS }
   "-"                              { \_ -> T_MINUS }
   "*"                              { \_ -> T_TIMES }
