@@ -13,9 +13,11 @@ Analisador léxico, sintático e semântico (parcial) para uma linguagem do tipo
 
 ## Compilação
 
-Requisitos: GHC, Alex e Happy.
+Requisitos: GHC, Alex e Happy, bibliotecas mtl e array do haskell.
 
 ```bash
+cabal update                  #caso nao tenha as bibliotecas instaladas
+cabal install --lib array mtl #caso nao tenha as bibliotecas instaladas
 alex Lexer.x       # gera Lexer.hs
 happy Parser.y     # gera Parser.hs
 ghc Main.hs -o analisador
