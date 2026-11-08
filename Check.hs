@@ -1,8 +1,17 @@
 module Check (checkProgram) where
 
 import AST
+    ( NumExpr(Neg, Var, BinOp),
+      BoolExpr(..),
+      Arg(..),
+      Cmd(..),
+      Type,
+      VarDecl(..),
+      Program(..) )
 import Control.Monad.Reader
+    ( ReaderT(runReaderT), MonadReader(ask) )
 import Control.Monad.Writer
+    ( MonadWriter(tell), execWriter, Writer )
 
 -- Tabela de simbolos: nome da variavel e o seu tipo
 -- (os tipos so serao usados na segunda parte do trabalho)
@@ -22,7 +31,7 @@ checkVar v = do
       tab <- ask --adequirir a tabela do ambiente
       case lookup v tab of  --procura variavel v 
             Just _ -> return () --continua caso esteja na tabela
-            Nothing -> tell["Variavel "++ v ++ " nao declarada"] --retorna erro caso não
+            Nothing -> tell["Variavel "++ v ++ " nao declarada"] --retorna erro cas
 
 -- ===== Comandos =====
 checkCmd :: Cmd-> CheckM ()
